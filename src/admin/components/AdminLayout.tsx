@@ -15,7 +15,8 @@ import {
   X,
   Home,
   Eye,
-  Users
+  Users,
+  Layout
 } from "lucide-react"
 import { useAuth } from "../../contexts/AuthContext"
 import toast from "react-hot-toast"
@@ -36,6 +37,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
 
   const menuItems = [
     { name: "Dashboard", path: "/admin", icon: LayoutDashboard },
+    { name: "Visual Builder", path: "/admin/builder", icon: Layout },
     { name: "Products", path: "/admin/products", icon: Package },
     { name: "Content", path: "/admin/content", icon: FileText },
     { name: "Media", path: "/admin/images", icon: Image },

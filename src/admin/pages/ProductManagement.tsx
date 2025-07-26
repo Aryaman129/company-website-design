@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Plus, Search, Edit, Trash2, Eye, Star, Package } from "lucide-react"
 import { useWebsiteData } from "../../hooks/useWebsiteData"
+import ProductEditModal from "../components/ProductEditModal"
 import toast from "react-hot-toast"
 
 const ProductManagement = () => {
@@ -247,8 +248,20 @@ const ProductManagement = () => {
         </div>
       )}
 
-      {/* Add/Edit Product Modal would go here */}
-      {/* For brevity, I'll create this in a separate component */}
+      {/* Product Edit Modal */}
+      <ProductEditModal
+        product={editingProduct}
+        isOpen={showAddForm || editingProduct !== null}
+        onClose={() => {
+          setShowAddForm(false)
+          setEditingProduct(null)
+        }}
+        onSave={(product) => {
+          // The modal handles the actual save operation
+          // This callback is just for UI updates
+          console.log('Product saved:', product)
+        }}
+      />
     </div>
   )
 }

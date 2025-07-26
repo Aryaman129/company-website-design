@@ -1,5 +1,6 @@
 // Data Manager - Handles all website data persistence and management
 import toast from "react-hot-toast"
+import { eventBus, EVENTS } from "./eventBus"
 
 export interface Product {
   id: number
@@ -192,6 +193,8 @@ class DataManager {
 
   async saveProducts(products: Product[]): Promise<void> {
     localStorage.setItem('website_products', JSON.stringify(products))
+    eventBus.emit(EVENTS.PRODUCT_UPDATED, products)
+    eventBus.emit(EVENTS.DATA_UPDATED, { type: 'products', data: products })
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 500))
   }
@@ -231,6 +234,8 @@ class DataManager {
 
   async saveContent(content: ContentData): Promise<void> {
     localStorage.setItem('website_content', JSON.stringify(content))
+    eventBus.emit(EVENTS.CONTENT_UPDATED, content)
+    eventBus.emit(EVENTS.DATA_UPDATED, { type: 'content', data: content })
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 500))
   }
@@ -244,6 +249,8 @@ class DataManager {
 
   async saveSettings(settings: SettingsData): Promise<void> {
     localStorage.setItem('website_settings', JSON.stringify(settings))
+    eventBus.emit(EVENTS.SETTINGS_UPDATED, settings)
+    eventBus.emit(EVENTS.DATA_UPDATED, { type: 'settings', data: settings })
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 500))
   }

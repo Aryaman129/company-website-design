@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Save, RefreshCw, Eye, FileText } from "lucide-react"
+import { useWebsiteData } from "../../hooks/useWebsiteData"
 import toast from "react-hot-toast"
 
 interface ContentData {
@@ -35,51 +36,34 @@ interface ContentData {
 }
 
 const ContentManagement = () => {
-  const [content, setContent] = useState<ContentData | null>(null)
-  const [loading, setLoading] = useState(true)
+  const { content, updateContent, loading } = useWebsiteData()
+  const [localContent, setLocalContent] = useState<ContentData | null>(null)
   const [saving, setSaving] = useState(false)
   const [activeTab, setActiveTab] = useState("hero")
 
   useEffect(() => {
-    loadContent()
-  }, [])
-
-  const loadContent = async () => {
-    try {
-      const response = await fetch('/data/content.json')
-      const data = await response.json()
-      setContent(data)
-    } catch (error) {
-      console.error('Error loading content:', error)
-      toast.error('Failed to load content')
-    } finally {
-      setLoading(false)
+    if (content) {
+      setLocalContent(content)
     }
-  }
+  }, [content])
 
   const handleSave = async () => {
-    if (!content) return
+    if (!localContent) return
 
     setSaving(true)
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      
-      // In a real app, this would save to the server
-      console.log('Saving content:', content)
-      
-      toast.success('Content saved successfully!')
+      await updateContent(localContent)
     } catch (error) {
-      toast.error('Failed to save content')
+      console.error('Error saving content:', error)
     } finally {
       setSaving(false)
     }
   }
 
-  const updateContent = (section: keyof ContentData, field: string, value: any) => {
-    if (!content) return
+  const updateLocalContent = (section: keyof ContentData, field: string, value: any) => {
+    if (!localContent) return
 
-    setContent(prev => ({
+    setLocalContent(prev => ({
       ...prev!,
       [section]: {
         ...prev![section],
@@ -89,16 +73,16 @@ const ContentManagement = () => {
   }
 
   const updateNestedContent = (section: keyof ContentData, path: string[], value: any) => {
-    if (!content) return
+    if (!localContent) return
 
-    setContent(prev => {
+    setLocalContent(prev => {
       const newContent = { ...prev! }
       let current: any = newContent[section]
-      
+
       for (let i = 0; i < path.length - 1; i++) {
         current = current[path[i]]
       }
-      
+
       current[path[path.length - 1]] = value
       return newContent
     })
@@ -118,13 +102,10 @@ const ContentManagement = () => {
     )
   }
 
-  if (!content) {
+  if (!localContent) {
     return (
       <div className="text-center py-12">
         <p className="text-gray-600">Failed to load content</p>
-        <button onClick={loadContent} className="btn-primary mt-4">
-          Try Again
-        </button>
       </div>
     )
   }
@@ -204,8 +185,8 @@ const ContentManagement = () => {
                 </label>
                 <input
                   type="text"
-                  value={content.hero.title}
-                  onChange={(e) => updateContent('hero', 'title', e.target.value)}
+                  value={localContent.hero.title}
+                  onChange={(e) => updateLocalContent('hero', 'title', e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent"
                 />
               </div>
@@ -215,8 +196,8 @@ const ContentManagement = () => {
                   Hero Subtitle
                 </label>
                 <textarea
-                  value={content.hero.subtitle}
-                  onChange={(e) => updateContent('hero', 'subtitle', e.target.value)}
+                  value={localContent.hero.subtitle}
+                  onChange={(e) => updateLocalContent('hero', 'subtitle', e.target.value)}
                   rows={3}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent resize-none"
                 />
@@ -229,7 +210,7 @@ const ContentManagement = () => {
                   </label>
                   <input
                     type="text"
-                    value={content.hero.buttons.primary.text}
+                    value={localContent.hero.buttons.primary.text}
                     onChange={(e) => updateNestedContent('hero', ['buttons', 'primary', 'text'], e.target.value)}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent"
                   />
@@ -240,7 +221,7 @@ const ContentManagement = () => {
                   </label>
                   <input
                     type="text"
-                    value={content.hero.buttons.primary.link}
+                    value={localContent.hero.buttons.primary.link}
                     onChange={(e) => updateNestedContent('hero', ['buttons', 'primary', 'link'], e.target.value)}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent"
                   />
@@ -254,7 +235,7 @@ const ContentManagement = () => {
                   </label>
                   <input
                     type="text"
-                    value={content.hero.buttons.secondary.text}
+                    value={localContent.hero.buttons.secondary.text}
                     onChange={(e) => updateNestedContent('hero', ['buttons', 'secondary', 'text'], e.target.value)}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent"
                   />
@@ -265,7 +246,7 @@ const ContentManagement = () => {
                   </label>
                   <input
                     type="text"
-                    value={content.hero.buttons.secondary.link}
+                    value={localContent.hero.buttons.secondary.link}
                     onChange={(e) => updateNestedContent('hero', ['buttons', 'secondary', 'link'], e.target.value)}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent"
                   />
@@ -287,8 +268,8 @@ const ContentManagement = () => {
                 </label>
                 <input
                   type="text"
-                  value={content.about.title}
-                  onChange={(e) => updateContent('about', 'title', e.target.value)}
+                  value={localContent.about.title}
+                  onChange={(e) => updateLocalContent('about', 'title', e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent"
                 />
               </div>
@@ -298,8 +279,8 @@ const ContentManagement = () => {
                   About Description
                 </label>
                 <textarea
-                  value={content.about.description}
-                  onChange={(e) => updateContent('about', 'description', e.target.value)}
+                  value={localContent.about.description}
+                  onChange={(e) => updateLocalContent('about', 'description', e.target.value)}
                   rows={4}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent resize-none"
                 />
@@ -310,8 +291,8 @@ const ContentManagement = () => {
                   Features (one per line)
                 </label>
                 <textarea
-                  value={content.about.features.join('\n')}
-                  onChange={(e) => updateContent('about', 'features', e.target.value.split('\n').filter(f => f.trim()))}
+                  value={localContent.about.features.join('\n')}
+                  onChange={(e) => updateLocalContent('about', 'features', e.target.value.split('\n').filter(f => f.trim()))}
                   rows={3}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent resize-none"
                 />
@@ -332,8 +313,8 @@ const ContentManagement = () => {
                 </label>
                 <input
                   type="text"
-                  value={content.cta.title}
-                  onChange={(e) => updateContent('cta', 'title', e.target.value)}
+                  value={localContent.cta.title}
+                  onChange={(e) => updateLocalContent('cta', 'title', e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent"
                 />
               </div>
@@ -343,8 +324,8 @@ const ContentManagement = () => {
                   CTA Description
                 </label>
                 <textarea
-                  value={content.cta.description}
-                  onChange={(e) => updateContent('cta', 'description', e.target.value)}
+                  value={localContent.cta.description}
+                  onChange={(e) => updateLocalContent('cta', 'description', e.target.value)}
                   rows={3}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent resize-none"
                 />

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { dataManager, Product, ContentData, SettingsData, MediaItem, Testimonial } from '../lib/dataManager'
+import { eventBus, EVENTS } from '../lib/eventBus'
 import toast from 'react-hot-toast'
 
 export const useWebsiteData = () => {
@@ -39,6 +40,30 @@ export const useWebsiteData = () => {
 
   useEffect(() => {
     loadData()
+
+    // Listen for data updates from admin portal
+    const handleDataUpdate = (updateData: { type: string; data: any }) => {
+      switch (updateData.type) {
+        case 'products':
+          setProducts(updateData.data)
+          break
+        case 'content':
+          setContent(updateData.data)
+          break
+        case 'settings':
+          setSettings(updateData.data)
+          break
+        case 'media':
+          setMedia(updateData.data)
+          break
+      }
+    }
+
+    eventBus.on(EVENTS.DATA_UPDATED, handleDataUpdate)
+
+    return () => {
+      eventBus.off(EVENTS.DATA_UPDATED, handleDataUpdate)
+    }
   }, [loadData])
 
   // Products methods
