@@ -1,0 +1,99 @@
+{
+  "hero": {
+    "title": "Premium Steel & Metal Solutions",
+    "subtitle": "Leading steel and metal trading company in Maharashtra. Supplying quality materials for construction and industrial projects since 1985.",
+    "videoUrl": "https://videos.pexels.com/video-files/3196036/3196036-uhd_2560_1440_25fps.mp4",
+    "videoPoster": "https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?w=1920&h=1080&fit=crop&crop=center",
+    "logo": "/shyam-trading-logo.png",
+    "buttons": {
+      "primary": {
+        "text": "Explore Products",
+        "link": "/products"
+      },
+      "secondary": {
+        "text": "Get Quote",
+        "link": "/contact"
+      }
+    }
+  },
+  "stats": [
+    {
+      "number": 35,
+      "suffix": "+",
+      "label": "Years Experience",
+      "icon": "Calendar"
+    },
+    {
+      "number": 1000,
+      "suffix": "+",
+      "label": "Tons Supplied",
+      "icon": "Award"
+    },
+    {
+      "number": 500,
+      "suffix": "+",
+      "label": "Happy Clients",
+      "icon": "Users"
+    },
+    {
+      "number": 4.8,
+      "suffix": "/5",
+      "label": "Client Rating",
+      "icon": "Star"
+    }
+  ],
+  "about": {
+    "title": "Leading Steel & Metal Trading Since 1985",
+    "description": "Established in Nagpur, Maharashtra, Shyam Trading Company has been a premier steel and metal trading company serving construction, infrastructure, and industrial sectors. With over three decades of experience, we supply premium quality steel products including MS pipes, TMT bars, steel sheets, stainless steel, aluminum, and structural steel to clients across Maharashtra and beyond.",
+    "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=500&fit=crop&crop=center",
+    "features": [
+      "Premium Quality Steel Products",
+      "Competitive Pricing & Fast Delivery",
+      "Expert Technical Support"
+    ],
+    "yearsBadge": {
+      "number": "35+",
+      "text": "Years of Trust"
+    }
+  },
+  "testimonials": [
+    {
+      "id": 1,
+      "name": "Rajesh Kumar",
+      "company": "Kumar Industries",
+      "text": "Exceptional quality steel products and timely delivery. Shyam Trading Company has been our trusted steel supplier for over 10 years.",
+      "rating": 5,
+      "image": "/placeholder-user.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Priya Sharma",
+      "company": "Sharma Constructions",
+      "text": "Professional team with excellent product knowledge. Their technical support and quality assurance is remarkable.",
+      "rating": 5,
+      "image": "/placeholder-user.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Amit Patel",
+      "company": "Patel Developers",
+      "text": "Highly recommended for any steel requirements. Quality products at competitive prices with reliable supply chain.",
+      "rating": 5,
+      "image": "/placeholder-user.jpg"
+    }
+  ],
+  "cta": {
+    "title": "Need Quality Steel Products?",
+    "description": "Get in touch with our expert team for competitive quotes and technical support. We supply premium steel and metal products with reliable delivery across Maharashtra.",
+    "buttons": {
+      "primary": {
+        "text": "Get Free Quote",
+        "link": "/contact"
+      },
+      "secondary": {
+        "text": "View Products",
+        "link": "/products"
+      }
+    }
+  }
+}

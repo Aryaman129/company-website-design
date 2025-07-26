@@ -1,0 +1,104 @@
+[
+  {
+    "id": 1,
+    "name": "12mm Toughened Glass Work",
+    "category": "Toughened Glass",
+    "description": "High-quality 12mm toughened safety glass for partitions, facades, and structural applications",
+    "image": "/placeholder.svg?height=300&width=400",
+    "features": ["Safety Glass", "12mm Thickness", "Heat Resistant", "Impact Resistant"],
+    "price": "₹450/sq ft",
+    "specifications": {
+      "thickness": "12mm",
+      "type": "Toughened Safety Glass",
+      "applications": ["Partitions", "Facades", "Doors", "Windows"],
+      "certifications": ["ISI Mark", "BIS Certified"]
+    },
+    "inStock": true,
+    "featured": true
+  },
+  {
+    "id": 2,
+    "name": "Premium Wooden Doors",
+    "category": "Wooden Doors",
+    "description": "Solid wood doors with premium finish for residential and commercial applications",
+    "image": "/placeholder.svg?height=300&width=400",
+    "features": ["Solid Wood", "Premium Finish", "Custom Sizes", "Termite Resistant"],
+    "price": "₹8,500/door",
+    "specifications": {
+      "material": "Teak Wood",
+      "finish": "Melamine Polish",
+      "sizes": ["7x3 ft", "7x4 ft", "8x3 ft", "8x4 ft"],
+      "warranty": "5 Years"
+    },
+    "inStock": true,
+    "featured": true
+  },
+  {
+    "id": 3,
+    "name": "Aluminum Sliding Windows",
+    "category": "Aluminum Windows",
+    "description": "Modern aluminum sliding window systems with weather sealing",
+    "image": "/placeholder.svg?height=300&width=400",
+    "features": ["Sliding System", "Weather Resistant", "Energy Efficient", "Low Maintenance"],
+    "price": "₹320/sq ft",
+    "specifications": {
+      "material": "Aluminum Alloy",
+      "type": "Sliding Window",
+      "glass": "5mm Float Glass",
+      "colors": ["White", "Brown", "Black", "Silver"]
+    },
+    "inStock": true,
+    "featured": false
+  },
+  {
+    "id": 4,
+    "name": "WPC Wall Panels",
+    "category": "PVC Panels",
+    "description": "Water-resistant WPC panels for interior and exterior wall cladding",
+    "image": "/placeholder.svg?height=300&width=400",
+    "features": ["Water Resistant", "Easy Installation", "Low Maintenance", "Eco-Friendly"],
+    "price": "₹85/sq ft",
+    "specifications": {
+      "material": "Wood Plastic Composite",
+      "thickness": "8mm",
+      "dimensions": "8ft x 1ft",
+      "colors": ["Wood Grain", "Marble Finish", "Solid Colors"]
+    },
+    "inStock": true,
+    "featured": false
+  },
+  {
+    "id": 5,
+    "name": "ACP Cladding Sheets",
+    "category": "ACP Cladding",
+    "description": "Aluminum composite panel cladding for modern building exteriors",
+    "image": "/placeholder.svg?height=300&width=400",
+    "features": ["Fire Resistant", "Weather Proof", "Modern Design", "Lightweight"],
+    "price": "₹125/sq ft",
+    "specifications": {
+      "material": "Aluminum Composite",
+      "thickness": "4mm",
+      "core": "PE/FR Core",
+      "sizes": ["4ft x 8ft", "5ft x 10ft"]
+    },
+    "inStock": true,
+    "featured": true
+  },
+  {
+    "id": 6,
+    "name": "Stainless Steel Security Doors",
+    "category": "Steel Doors",
+    "description": "Heavy-duty stainless steel security doors with multi-point locking",
+    "image": "/placeholder.svg?height=300&width=400",
+    "features": ["High Security", "Corrosion Resistant", "Multi-Point Lock", "Long Lasting"],
+    "price": "₹15,500/door",
+    "specifications": {
+      "material": "304 Grade Stainless Steel",
+      "thickness": "1.2mm",
+      "locking": "7-Point Locking System",
+      "finish": "Satin/Mirror Finish"
+    },
+    "inStock": true,
+    "featured": false
+  }
+]

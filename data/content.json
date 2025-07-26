@@ -1,0 +1,99 @@
+{
+  "hero": {
+    "title": "35+ Years of Excellence",
+    "subtitle": "Premium construction materials and contracting services across Maharashtra. Building trust since 1985.",
+    "videoUrl": "/hero-video.mp4",
+    "videoPoster": "/placeholder.svg?height=1080&width=1920",
+    "logo": "/placeholder.svg?height=96&width=384",
+    "buttons": {
+      "primary": {
+        "text": "Explore Products",
+        "link": "/products"
+      },
+      "secondary": {
+        "text": "Get Quote",
+        "link": "/contact"
+      }
+    }
+  },
+  "stats": [
+    {
+      "number": 35,
+      "suffix": "+",
+      "label": "Years Experience",
+      "icon": "Calendar"
+    },
+    {
+      "number": 500,
+      "suffix": "+",
+      "label": "Projects Completed",
+      "icon": "Award"
+    },
+    {
+      "number": 300,
+      "suffix": "+",
+      "label": "Happy Clients",
+      "icon": "Users"
+    },
+    {
+      "number": 4.8,
+      "suffix": "/5",
+      "label": "Client Rating",
+      "icon": "Star"
+    }
+  ],
+  "about": {
+    "title": "Building Excellence Since 1985",
+    "description": "Established in Nagpur, Maharashtra, Shyam Trading Company has been a leading contractor specializing in diverse interior and exterior building projects. With over three decades of experience, we have consistently delivered excellence in both commercial and residential refurbishments.",
+    "image": "/placeholder.svg?height=500&width=600",
+    "features": [
+      "Premium Quality Materials",
+      "Timely Project Delivery",
+      "Expert Craftsmanship"
+    ],
+    "yearsBadge": {
+      "number": "35+",
+      "text": "Years of Trust"
+    }
+  },
+  "testimonials": [
+    {
+      "id": 1,
+      "name": "Rajesh Kumar",
+      "company": "Kumar Industries",
+      "text": "Exceptional quality and timely delivery. Shyam Trading Company has been our trusted partner for over 10 years.",
+      "rating": 5,
+      "image": "/placeholder-user.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Priya Sharma",
+      "company": "Sharma Constructions",
+      "text": "Professional team with excellent craftsmanship. Their attention to detail is remarkable.",
+      "rating": 5,
+      "image": "/placeholder-user.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Amit Patel",
+      "company": "Patel Developers",
+      "text": "Highly recommended for any construction project. Quality products at competitive prices.",
+      "rating": 5,
+      "image": "/placeholder-user.jpg"
+    }
+  ],
+  "cta": {
+    "title": "Ready to Start Your Project?",
+    "description": "Get in touch with our expert team for a free consultation and quote. Let's bring your vision to life with our premium materials and services.",
+    "buttons": {
+      "primary": {
+        "text": "Get Free Quote",
+        "link": "/contact"
+      },
+      "secondary": {
+        "text": "View Products",
+        "link": "/products"
+      }
+    }
+  }
+}

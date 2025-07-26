@@ -2,6 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Shyam Trading Company Brand Colors */
+:root {
+  --shyam-gold: #D4AF37;
+  --shyam-gold-light: #E6C55A;
+  --shyam-gold-dark: #B8941F;
+  --shyam-dark: #2D2D2D;
+  --shyam-dark-light: #404040;
+  --shyam-dark-darker: #1A1A1A;
+  --shyam-gray: #8B8B8B;
+  --shyam-gray-light: #B8B8B8;
+}
+
+/* Custom styles for Shyam Trading Company */
+.bg-shyam-gold { background-color: var(--shyam-gold); }
+.bg-shyam-dark { background-color: var(--shyam-dark); }
+.text-shyam-gold { color: var(--shyam-gold); }
+.text-shyam-dark { color: var(--shyam-dark); }
+.border-shyam-gold { border-color: var(--shyam-gold); }
+
+/* Enhanced gold gradient for premium feel */
+.bg-gradient-gold {
+  background: linear-gradient(135deg, var(--shyam-gold-dark) 0%, var(--shyam-gold) 50%, var(--shyam-gold-light) 100%);
+}
+
+/* Dark gradient for sophisticated backgrounds */
+.bg-gradient-dark {
+  background: linear-gradient(135deg, var(--shyam-dark-darker) 0%, var(--shyam-dark) 50%, var(--shyam-dark-light) 100%);
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

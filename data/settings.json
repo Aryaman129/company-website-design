@@ -1,0 +1,47 @@
+{
+  "company": {
+    "name": "Shyam Trading Company",
+    "tagline": "Building Excellence Since 1985",
+    "established": "1985",
+    "gst": "27AGZPM2344N1ZK",
+    "logo": "/placeholder.svg?height=50&width=200",
+    "logoLarge": "/placeholder.svg?height=96&width=384"
+  },
+  "contact": {
+    "phone": "+91 9876543210",
+    "email": "info@shyamtradingco.in",
+    "address": {
+      "street": "123 Industrial Area",
+      "city": "Nagpur",
+      "state": "Maharashtra",
+      "pincode": "440001",
+      "country": "India"
+    },
+    "workingHours": {
+      "weekdays": "9:00 AM - 6:00 PM",
+      "saturday": "9:00 AM - 4:00 PM",
+      "sunday": "Closed"
+    }
+  },
+  "social": {
+    "facebook": "https://facebook.com/shyamtradingco",
+    "instagram": "https://instagram.com/shyamtradingco",
+    "linkedin": "https://linkedin.com/company/shyamtradingco",
+    "youtube": "https://youtube.com/@shyamtradingco"
+  },
+  "seo": {
+    "title": "Shyam Trading Company - Premium Construction Materials",
+    "description": "Leading contractor in Maharashtra specializing in toughened glass, wooden doors, aluminum windows, and construction materials since 1985.",
+    "keywords": ["construction materials", "toughened glass", "wooden doors", "aluminum windows", "contractor", "Maharashtra", "Nagpur"],
+    "author": "Shyam Trading Company"
+  },
+  "categories": [
+    "Toughened Glass",
+    "Wooden Doors", 
+    "Aluminum Windows",
+    "PVC Panels",
+    "ACP Cladding",
+    "Steel Doors",
+    "Glazing Services"
+  ]
+}

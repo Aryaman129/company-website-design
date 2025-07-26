@@ -1,14 +1,17 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Link, useLocation } from "react-router-dom"
+import { usePathname } from "next/navigation"
+import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X, Phone, Mail } from "lucide-react"
+import { useWebsiteData } from "../../hooks/useWebsiteData"
 
 const Navbar = () => {
+  const { settings, loading } = useWebsiteData()
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const location = useLocation()
+  const pathname = usePathname()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,7 +21,7 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const navItems = [
+  const navItems = settings?.navigation || [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
     { name: "Products", path: "/products" },
@@ -33,14 +36,16 @@ const Navbar = () => {
           <div className="flex items-center space-x-6">
             <div className="flex items-center space-x-2">
               <Phone size={14} />
-              <span>+91 9876543210</span>
+              <span>{settings?.contact?.phone || "+91 9876543210"}</span>
             </div>
             <div className="flex items-center space-x-2">
               <Mail size={14} />
-              <span>info@shyamtradingco.in</span>
+              <span>{settings?.contact?.email || "info@shyamtradingco.in"}</span>
             </div>
           </div>
-          <div className="text-gold">GST: 27AGZPM2344N1ZK | Est. 1985</div>
+          <div className="text-gold">
+            GST: {settings?.company?.gst || "27AGZPM2344N1ZK"} | Est. {settings?.company?.established || "1985"}
+          </div>
         </div>
       </div>
 
@@ -55,11 +60,11 @@ const Navbar = () => {
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center h-20">
             {/* Logo */}
-            <Link to="/" className="flex items-center space-x-3">
+            <Link href="/" className="flex items-center space-x-3">
               <motion.img
                 whileHover={{ scale: 1.05 }}
-                src="/placeholder.svg?height=50&width=200"
-                alt="Shyam Trading Company"
+                src={settings?.company?.logo || "/shyam-trading-logo.png"}
+                alt={settings?.company?.name || "Shyam Trading Company"}
                 className="h-12 w-auto"
               />
             </Link>
@@ -69,9 +74,9 @@ const Navbar = () => {
               {navItems.map((item) => (
                 <Link
                   key={item.name}
-                  to={item.path}
+                  href={item.path}
                   className={`relative font-medium transition-colors duration-300 ${
-                    location.pathname === item.path
+                    pathname === item.path
                       ? "text-gold"
                       : scrolled
                         ? "text-gray-700 hover:text-gold"
@@ -79,7 +84,7 @@ const Navbar = () => {
                   }`}
                 >
                   {item.name}
-                  {location.pathname === item.path && (
+                  {pathname === item.path && (
                     <motion.div layoutId="activeTab" className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gold" />
                   )}
                 </Link>
@@ -117,10 +122,10 @@ const Navbar = () => {
                     transition={{ delay: index * 0.1 }}
                   >
                     <Link
-                      to={item.path}
+                      href={item.path}
                       onClick={() => setIsOpen(false)}
                       className={`block py-3 px-4 rounded-lg font-medium transition-colors ${
-                        location.pathname === item.path
+                        pathname === item.path
                           ? "text-gold bg-gold/10"
                           : "text-gray-700 hover:text-gold hover:bg-gold/5"
                       }`}

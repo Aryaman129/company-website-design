@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import { MapPin, Phone, Mail, Clock, Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
-import { Link } from "react-router-dom"
+import Link from "next/link"
 
 const Footer = () => {
   const currentYear = new Date().getFullYear()
@@ -42,7 +42,7 @@ const Footer = () => {
             transition={{ duration: 0.6 }}
             className="space-y-6"
           >
-            <img src="/placeholder.svg?height=60&width=240" alt="Shyam Trading Company" className="h-16 w-auto" />
+            <img src="/shyam-trading-logo.png" alt="Shyam Trading Company" className="h-16 w-auto" />
             <p className="text-gray-300 leading-relaxed">
               Established in 1985, Shyam Trading Company has been delivering excellence in construction materials and
               contracting services for over 35 years.
@@ -74,7 +74,7 @@ const Footer = () => {
               {quickLinks.map((link) => (
                 <li key={link.name}>
                   <Link
-                    to={link.path}
+                    href={link.path}
                     className="text-gray-300 hover:text-gold transition-colors duration-300 flex items-center group"
                   >
                     <span className="w-2 h-2 bg-gold rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>

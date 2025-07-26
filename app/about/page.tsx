@@ -1,14 +1,14 @@
 "use client"
 
-import Home from "../src/spa-pages/Home"
-import Layout from "../src/components/Layout/Layout"
+import About from "../../src/spa-pages/About"
+import Layout from "../../src/components/Layout/Layout"
 import { Toaster } from "react-hot-toast"
 
-export default function Page() {
+export default function AboutPage() {
   return (
     <>
       <Layout>
-        <Home />
+        <About />
       </Layout>
       <Toaster
         position="top-right"

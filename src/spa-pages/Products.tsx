@@ -5,12 +5,15 @@ import { motion, AnimatePresence } from "framer-motion"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { Search, Filter, Star, ArrowRight } from "lucide-react"
+import { useWebsiteData } from "../hooks/useWebsiteData"
 
 gsap.registerPlugin(ScrollTrigger)
 
 const Products = () => {
+  const { products, settings, loading } = useWebsiteData()
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [searchTerm, setSearchTerm] = useState("")
+  const [filteredProducts, setFilteredProducts] = useState(products)
   const productsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -32,8 +35,28 @@ const Products = () => {
     }
   }, [selectedCategory])
 
-  const categories = [
-    "All",
+  useEffect(() => {
+    filterProducts()
+  }, [products, selectedCategory, searchTerm])
+
+  const filterProducts = () => {
+    let filtered = products || []
+
+    if (selectedCategory !== "All") {
+      filtered = filtered.filter(product => product.category === selectedCategory)
+    }
+
+    if (searchTerm) {
+      filtered = filtered.filter(product =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    }
+
+    setFilteredProducts(filtered)
+  }
+
+  const categories = ["All", ...(settings?.categories || [
     "Toughened Glass",
     "Wooden Doors",
     "Aluminum Windows",
@@ -41,168 +64,15 @@ const Products = () => {
     "ACP Cladding",
     "Steel Doors",
     "Glazing Services",
-  ]
+  ])]
 
-  const products = [
-    {
-      id: 1,
-      name: "12mm Toughened Glass Work",
-      category: "Toughened Glass",
-      description: "High-quality 12mm toughened glass for safety and durability",
-      image: "/placeholder.svg?height=300&width=400",
-      features: ["Safety Glass", "Heat Resistant", "Impact Resistant"],
-      rating: 4.8,
-      price: "Contact for Quote",
-    },
-    {
-      id: 2,
-      name: "Toughened Glass Door Partition",
-      category: "Toughened Glass",
-      description: "Modern glass partitions for office and commercial spaces",
-      image: "/placeholder.svg?height=300&width=400",
-      features: ["Frameless Design", "Easy Installation", "Sound Proof"],
-      rating: 4.9,
-      price: "Contact for Quote",
-    },
-    {
-      id: 3,
-      name: "Frameless Glass Office Partition",
-      category: "Toughened Glass",
-      description: "Elegant frameless glass partitions for modern offices",
-      image: "/placeholder.svg?height=300&width=400",
-      features: ["Modern Design", "Space Efficient", "Easy Maintenance"],
-      rating: 4.7,
-      price: "Contact for Quote",
-    },
-    {
-      id: 4,
-      name: "PVC False Ceiling Panel",
-      category: "PVC Panels",
-      description: "Decorative PVC panels for false ceiling applications",
-      image: "/placeholder.svg?height=300&width=400",
-      features: ["Water Resistant", "Easy Installation", "Variety of Designs"],
-      rating: 4.6,
-      price: "Contact for Quote",
-    },
-    {
-      id: 5,
-      name: "WPC Wall Panel",
-      category: "PVC Panels",
-      description: "Wood Plastic Composite panels for interior walls",
-      image: "/placeholder.svg?height=300&width=400",
-      features: ["Eco-Friendly", "Termite Resistant", "Low Maintenance"],
-      rating: 4.8,
-      price: "Contact for Quote",
-    },
-    {
-      id: 6,
-      name: "Wood Finish Wall Panels",
-      category: "PVC Panels",
-      description: "Premium wood finish decorative wall panels",
-      image: "/placeholder.svg?height=300&width=400",
-      features: ["Natural Look", "Durable Finish", "Easy to Clean"],
-      rating: 4.7,
-      price: "Contact for Quote",
-    },
-    {
-      id: 7,
-      name: "Laminated Flush Door",
-      category: "Wooden Doors",
-      description: "High-quality laminated flush doors for residential use",
-      image: "/placeholder.svg?height=300&width=400",
-      features: ["Smooth Finish", "Durable", "Variety of Colors"],
-      rating: 4.5,
-      price: "Contact for Quote",
-    },
-    {
-      id: 8,
-      name: "Pinewood Laminated Doors",
-      category: "Wooden Doors",
-      description: "Premium pinewood doors with laminated finish",
-      image: "/placeholder.svg?height=300&width=400",
-      features: ["Natural Wood", "Strong Build", "Beautiful Grain"],
-      rating: 4.9,
-      price: "Contact for Quote",
-    },
-    {
-      id: 9,
-      name: "Designer Chemical Doors",
-      category: "Wooden Doors",
-      description: "Chemically treated designer doors for enhanced durability",
-      image: "/placeholder.svg?height=300&width=400",
-      features: ["Chemical Treatment", "Designer Patterns", "Long Lasting"],
-      rating: 4.6,
-      price: "Contact for Quote",
-    },
-    {
-      id: 10,
-      name: "Aluminum Sliding Window",
-      category: "Aluminum Windows",
-      description: "Modern aluminum sliding windows for homes and offices",
-      image: "/placeholder.svg?height=300&width=400",
-      features: ["Smooth Operation", "Weather Resistant", "Energy Efficient"],
-      rating: 4.8,
-      price: "Contact for Quote",
-    },
-    {
-      id: 11,
-      name: "UPVC Glass Window",
-      category: "Aluminum Windows",
-      description: "UPVC windows with glass for better insulation",
-      image: "/placeholder.svg?height=300&width=400",
-      features: ["Thermal Insulation", "Sound Proof", "Low Maintenance"],
-      rating: 4.7,
-      price: "Contact for Quote",
-    },
-    {
-      id: 12,
-      name: "ACP Cladding Work",
-      category: "ACP Cladding",
-      description: "Aluminum Composite Panel cladding for building exteriors",
-      image: "/placeholder.svg?height=300&width=400",
-      features: ["Weather Resistant", "Fire Retardant", "Modern Look"],
-      rating: 4.8,
-      price: "Contact for Quote",
-    },
-    {
-      id: 13,
-      name: "HPL Exterior Wall Cladding",
-      category: "ACP Cladding",
-      description: "High Pressure Laminate cladding for exterior walls",
-      image: "/placeholder.svg?height=300&width=400",
-      features: ["UV Resistant", "Impact Resistant", "Easy Installation"],
-      rating: 4.6,
-      price: "Contact for Quote",
-    },
-    {
-      id: 14,
-      name: "Stainless Steel Security Door",
-      category: "Steel Doors",
-      description: "Heavy-duty stainless steel doors for maximum security",
-      image: "/placeholder.svg?height=300&width=400",
-      features: ["High Security", "Corrosion Resistant", "Strong Build"],
-      rating: 4.9,
-      price: "Contact for Quote",
-    },
-    {
-      id: 15,
-      name: "Glass Glazing Services",
-      category: "Glazing Services",
-      description: "Professional glass glazing and fabrication services",
-      image: "/placeholder.svg?height=300&width=400",
-      features: ["Expert Installation", "Quality Materials", "Timely Service"],
-      rating: 4.7,
-      price: "Contact for Quote",
-    },
-  ]
-
-  const filteredProducts = products.filter((product) => {
-    const matchesCategory = selectedCategory === "All" || product.category === selectedCategory
-    const matchesSearch =
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.description.toLowerCase().includes(searchTerm.toLowerCase())
-    return matchesCategory && matchesSearch
-  })
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-gold border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    )
+  }
 
   return (
     <div className="pt-24">
@@ -302,10 +172,12 @@ const Products = () => {
                       alt={product.name}
                       className="w-full h-48 object-cover transition-transform duration-300 hover:scale-110"
                     />
-                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-2 py-1 flex items-center space-x-1">
-                      <Star className="text-gold fill-current" size={14} />
-                      <span className="text-sm font-medium">{product.rating}</span>
-                    </div>
+                    {product.featured && (
+                      <div className="absolute top-4 right-4 bg-gold text-white rounded-full px-2 py-1 flex items-center space-x-1">
+                        <Star className="fill-current" size={14} />
+                        <span className="text-xs font-medium">Featured</span>
+                      </div>
+                    )}
                     <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                       <button className="btn-primary">
                         View Details
