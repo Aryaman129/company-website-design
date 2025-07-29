@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Plus, X, Save, Upload } from 'lucide-react'
 import { useWebsiteData } from '../../../hooks/useWebsiteData'
+import { uploadImage } from '../../../lib/imageUpload'
 import toast from 'react-hot-toast'
 
 interface QuickAddProductProps {
@@ -69,11 +70,22 @@ const QuickAddProduct: React.FC<QuickAddProductProps> = ({ isOpen, onClose }) =>
     }
   }
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
-      const url = URL.createObjectURL(file)
-      setFormData(prev => ({ ...prev, image: url }))
+      setLoading(true)
+      try {
+        console.log('🌍 QuickAddProduct: Uploading image for global access...')
+        const url = await uploadImage(file, 'products')
+        setFormData(prev => ({ ...prev, image: url }))
+        console.log('🌍 QuickAddProduct: Image uploaded globally, URL:', url)
+        toast.success('Image uploaded and available globally!')
+      } catch (error) {
+        console.error('🌍 QuickAddProduct: Global image upload failed:', error)
+        toast.error('Image upload failed - check console for details')
+      } finally {
+        setLoading(false)
+      }
     }
   }
 

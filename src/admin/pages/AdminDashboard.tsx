@@ -2,15 +2,17 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { 
-  Package, 
-  FileText, 
-  Image, 
-  TrendingUp, 
-  Users, 
+import {
+  Package,
+  FileText,
+  Image,
+  TrendingUp,
+  Users,
   Eye,
   Edit,
-  Plus
+  Plus,
+  Settings,
+  Video
 } from "lucide-react"
 import Link from "next/link"
 
@@ -78,6 +80,13 @@ const AdminDashboard = () => {
       link: "/",
       color: "bg-gold",
       external: true
+    },
+    {
+      title: "Video Test",
+      description: "Debug video playback",
+      icon: Video,
+      link: "/admin/video-test",
+      color: "bg-red-500"
     }
   ]
 

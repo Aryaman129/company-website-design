@@ -8,27 +8,22 @@
     "logoLarge": "/shyam-trading-logo.png"
   },
   "contact": {
-    "phone": "+91 9876543210",
-    "email": "info@shyamtradingco.in",
+    "phone": "+91 9422114130",
+    "email": "anil.shyamtrading@gmail.com",
     "address": {
-      "street": "123 Industrial Area",
+      "street": "Shyam Trading Co., SBI ATM juna, Bhandara Rd, Hansapuri, Nagpur, Maharashtra 440018",
       "city": "Nagpur",
       "state": "Maharashtra",
-      "pincode": "440001",
+      "pincode": "4400018",
       "country": "India"
     },
     "workingHours": {
-      "weekdays": "9:00 AM - 6:00 PM",
-      "saturday": "9:00 AM - 4:00 PM",
+      "weekdays": "11:00 AM - 8:00 PM",
+      "saturday": "11:00 AM - 6:00 PM",
       "sunday": "Closed"
     }
   },
-  "social": {
-    "facebook": "https://facebook.com/shyamtradingco",
-    "instagram": "https://instagram.com/shyamtradingco",
-    "linkedin": "https://linkedin.com/company/shyamtradingco",
-    "youtube": "https://youtube.com/@shyamtradingco"
-  },
+  
   "seo": {
     "title": "Shyam Trading Company - Premium Steel & Metal Trading",
     "description": "Leading steel and metal trading company in Maharashtra specializing in MS pipes, TMT bars, steel sheets, stainless steel, aluminum, and structural steel since 1985.",

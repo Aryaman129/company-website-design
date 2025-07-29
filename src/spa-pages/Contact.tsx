@@ -28,22 +28,22 @@ const Contact = () => {
     {
       icon: MapPin,
       title: "Visit Our Office",
-      details: ["Ground Floor, 64, Old Bhandara Road", "Near Hansapuri, Nagpur - 440018", "Maharashtra, India"],
+      details: ["Shyam Trading Co., SBI ATM juna", "Bhandara Rd, Hansapuri", "Nagpur, Maharashtra 440018"],
     },
     {
       icon: Phone,
       title: "Call Us",
-      details: ["+91 9876543210", "+91 7123456789", "Toll Free: 1800-123-4567"],
+      details: ["+91 9422114130"],
     },
     {
       icon: Mail,
       title: "Email Us",
-      details: ["info@shyamtradingco.in", "sales@shyamtradingco.in", "support@shyamtradingco.in"],
+      details: ["anil.shyamtrading@gmail.com"],
     },
     {
       icon: Clock,
       title: "Working Hours",
-      details: ["Monday - Saturday: 9:00 AM - 6:00 PM", "Sunday: 10:00 AM - 4:00 PM", "Emergency: 24/7 Available"],
+      details: ["Monday - Saturday: 11:00 AM - 8:00 PM", "Sunday: Closed"],
     },
   ]
 
@@ -59,13 +59,31 @@ const Contact = () => {
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    try {
+      // Create mailto link with form data
+      const subject = encodeURIComponent(`Contact Form: ${data.subject}`)
+      const body = encodeURIComponent(
+        `Name: ${data.name}\n` +
+        `Email: ${data.email}\n` +
+        `Phone: ${data.phone}\n` +
+        `Subject: ${data.subject}\n\n` +
+        `Message:\n${data.message}\n\n` +
+        `---\n` +
+        `Sent from Shyam Trading Company website`
+      )
 
-    console.log("Form submitted:", data)
-    toast.success("Thank you! Your message has been sent successfully. We will get back to you soon.")
-    reset()
-    setIsSubmitting(false)
+      const mailtoLink = `mailto:anil.shyamtrading@gmail.com?subject=${subject}&body=${body}`
+
+      // Open email client
+      window.open(mailtoLink, '_blank')
+
+      toast.success("Email client opened! Please send the email to complete your inquiry.")
+      reset()
+    } catch (error) {
+      toast.error("Failed to open email client. Please contact us directly at anil.shyamtrading@gmail.com")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -168,7 +186,7 @@ const Contact = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                    <input {...register("phone")} className="form-input" placeholder="+91 9876543210" />
+                    <input {...register("phone")} className="form-input" placeholder="+91 9422114130" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Inquiry Type</label>
@@ -240,14 +258,14 @@ const Contact = () => {
               {/* Google Maps */}
               <div className="bg-gray-200 rounded-xl overflow-hidden shadow-lg">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3721.2!2d79.0882!3d21.1458!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjHCsDA4JzQ0LjkiTiA3OcKwMDUnMTcuNSJF!5e0!3m2!1sen!2sin!4v1234567890"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3721.0234567890123!2d79.08820000000001!3d21.145800000000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd4c0a5a31faf13%3A0x9a07a70f013a2b4c!2sShyam%20Trading%20Co.%2C%20SBI%20ATM%20juna%2C%20Bhandara%20Rd%2C%20Hansapuri%2C%20Nagpur%2C%20Maharashtra%20440018!5e0!3m2!1sen!2sin!4v1640995200000!5m2!1sen!2sin"
                   width="100%"
                   height="300"
                   style={{ border: 0 }}
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Shyam Trading Company Location"
+                  title="Shyam Trading Company Location - Hansapuri, Nagpur"
                 ></iframe>
               </div>
 
@@ -270,16 +288,7 @@ const Contact = () => {
                 </div>
               </div>
 
-              {/* Emergency Contact */}
-              <div className="bg-red-50 border border-red-200 p-6 rounded-xl">
-                <h3 className="text-xl font-semibold text-red-800 mb-2">Emergency Contact</h3>
-                <p className="text-red-700 mb-3">For urgent matters or emergency services, call us directly:</p>
-                <div className="flex items-center space-x-2 text-red-800 font-semibold">
-                  <Phone size={18} />
-                  <span>+91 9876543210</span>
-                </div>
-                <p className="text-red-600 text-sm mt-2">Available 24/7 for emergencies</p>
-              </div>
+
             </motion.div>
           </div>
         </div>

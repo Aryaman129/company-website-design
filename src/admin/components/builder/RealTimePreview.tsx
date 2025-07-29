@@ -145,17 +145,34 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({
 
   // Listen for data updates and refresh preview
   useEffect(() => {
-    const handleDataUpdate = () => {
+    const handleDataUpdate = (updateData: any) => {
       // Force re-render when data changes
       if (previewRef.current) {
-        // Trigger a re-render by updating a key or forcing component refresh
-        console.log('Data updated, refreshing preview...')
+        console.log('Data updated, refreshing preview...', updateData)
+
+        // Re-enable edit mode if it was active
+        if (isEditing) {
+          setTimeout(() => {
+            enableEditMode()
+          }, 100)
+        }
       }
     }
 
+    const handleReconnection = () => {
+      console.log('Database reconnected, refreshing preview...')
+      // Force a complete refresh when database reconnects
+      window.location.reload()
+    }
+
     eventBus.on(EVENTS.DATA_UPDATED, handleDataUpdate)
-    return () => eventBus.off(EVENTS.DATA_UPDATED, handleDataUpdate)
-  }, [])
+    eventBus.on('database_reconnected', handleReconnection)
+
+    return () => {
+      eventBus.off(EVENTS.DATA_UPDATED, handleDataUpdate)
+      eventBus.off('database_reconnected', handleReconnection)
+    }
+  }, [isEditing])
 
   // Render the appropriate page component
   const renderPageComponent = () => {

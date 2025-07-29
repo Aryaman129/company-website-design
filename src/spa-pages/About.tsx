@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { Award, Users, Target, Eye, CheckCircle, Building, Handshake, Shield, Clock } from "lucide-react"
+import IntroVideo from "../components/IntroVideo"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -208,10 +209,12 @@ const About = () => {
               transition={{ duration: 0.8 }}
               className="relative"
             >
-              <img
-                src="/placeholder.svg?height=500&width=600"
-                alt="Shyam Trading Company History"
-                className="rounded-xl shadow-2xl"
+              <IntroVideo
+                className="w-full h-80 rounded-xl shadow-2xl"
+                autoplay={true}
+                muted={true}
+                loop={true}
+                controls={false}
               />
               <div className="absolute -top-6 -right-6 bg-gold text-white p-6 rounded-xl text-center">
                 <div className="text-3xl font-bold">1985</div>

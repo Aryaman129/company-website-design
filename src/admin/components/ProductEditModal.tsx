@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, Upload, Save, Loader } from 'lucide-react'
 import { useWebsiteData } from '../../hooks/useWebsiteData'
 import { Product } from '../../lib/dataManager'
+import { uploadImage } from '../../lib/imageUpload'
 import toast from 'react-hot-toast'
 
 interface ProductEditModalProps {
@@ -71,7 +72,17 @@ const ProductEditModal: React.FC<ProductEditModalProps> = ({
         featured: false
       })
     }
-  }, [product, categories])
+  }, [product]) // Removed categories from dependency array to prevent infinite re-renders
+
+  // Separate effect to update category when categories change and no product is selected
+  useEffect(() => {
+    if (!product && categories.length > 0) {
+      setFormData(prev => ({
+        ...prev,
+        category: prev.category || categories[0]
+      }))
+    }
+  }, [categories, product])
 
   const handleInputChange = (field: keyof Product, value: any) => {
     setFormData(prev => ({
@@ -158,16 +169,25 @@ const ProductEditModal: React.FC<ProductEditModalProps> = ({
     }
   }
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
-      // In a real app, you would upload to a server
-      // For now, we'll create a local URL
-      const url = URL.createObjectURL(file)
-      setFormData(prev => ({
-        ...prev,
-        image: url
-      }))
+      setLoading(true)
+      try {
+        console.log('🌍 ProductEditModal: Uploading image for global access...')
+        const url = await uploadImage(file, 'products')
+        setFormData(prev => ({
+          ...prev,
+          image: url
+        }))
+        console.log('🌍 ProductEditModal: Image uploaded globally, URL:', url)
+        toast.success('Image uploaded and available globally!')
+      } catch (error) {
+        console.error('🌍 ProductEditModal: Global image upload failed:', error)
+        toast.error('Image upload failed - check console for details')
+      } finally {
+        setLoading(false)
+      }
     }
   }
 

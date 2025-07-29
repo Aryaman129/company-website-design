@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback } from 'react'
-import { dataManager, Product, ContentData, SettingsData, MediaItem, Testimonial } from '../lib/dataManager'
+import { dataManager, Product, ContentData, SettingsData, MediaItem, Testimonial } from '../lib/hybridDataManager'
 import { eventBus, EVENTS } from '../lib/eventBus'
 import toast from 'react-hot-toast'
 
@@ -238,6 +238,31 @@ export const useWebsiteData = () => {
     loadData()
   }, [loadData])
 
+  // Connection status
+  const getConnectionStatus = useCallback(async () => {
+    try {
+      return await dataManager.getConnectionStatus()
+    } catch (error) {
+      console.error('Failed to get connection status:', error)
+      return { mode: 'localStorage', connected: false, hasEnvironmentVars: false }
+    }
+  }, [])
+
+  // Reconnect to database
+  const reconnectToDatabase = useCallback(async () => {
+    try {
+      const success = await dataManager.reconnectToDatabase()
+      if (success) {
+        await loadData() // Reload data from database
+      }
+      return success
+    } catch (error) {
+      console.error('Failed to reconnect to database:', error)
+      toast.error('Failed to reconnect to database')
+      return false
+    }
+  }, [loadData])
+
   return {
     // Data
     products,
@@ -246,30 +271,34 @@ export const useWebsiteData = () => {
     media,
     loading,
     error,
-    
+
     // Products
     addProduct,
     updateProduct,
     deleteProduct,
-    
+
     // Content
     updateContent,
-    
+
     // Settings
     updateSettings,
-    
+
     // Media
     uploadMedia,
     deleteMedia,
-    
+
     // Testimonials
     addTestimonial,
     updateTestimonial,
     deleteTestimonial,
-    
+
     // Utilities
     exportData,
     importData,
-    refreshData
+    refreshData,
+
+    // Database utilities
+    getConnectionStatus,
+    reconnectToDatabase
   }
 }

@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { MapPin, Phone, Mail, Clock, Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
+import { MapPin, Phone, Mail, Clock } from "lucide-react"
 import Link from "next/link"
 
 const Footer = () => {
@@ -23,12 +23,7 @@ const Footer = () => {
     "Steel Doors",
   ]
 
-  const socialLinks = [
-    { icon: Facebook, href: "#", label: "Facebook" },
-    { icon: Twitter, href: "#", label: "Twitter" },
-    { icon: Instagram, href: "#", label: "Instagram" },
-    { icon: Linkedin, href: "#", label: "LinkedIn" },
-  ]
+
 
   return (
     <footer className="bg-dark-darker text-white">
@@ -42,23 +37,22 @@ const Footer = () => {
             transition={{ duration: 0.6 }}
             className="space-y-6"
           >
-            <img src="/shyam-trading-logo.png" alt="Shyam Trading Company" className="h-16 w-auto" />
+            <img
+              src="/Logo.png"
+              alt="Shyam Trading Company"
+              className="h-20 w-auto"
+              onError={(e) => {
+                // Fallback to original logo if Logo.png doesn't exist
+                (e.target as HTMLImageElement).src = "/shyam-trading-logo.png"
+              }}
+            />
             <p className="text-gray-300 leading-relaxed">
               Established in 1985, Shyam Trading Company has been delivering excellence in construction materials and
               contracting services for over 35 years.
             </p>
-            <div className="flex space-x-4">
-              {socialLinks.map((social, index) => (
-                <motion.a
-                  key={social.label}
-                  href={social.href}
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  className="w-10 h-10 bg-gold/20 rounded-full flex items-center justify-center text-gold hover:bg-gold hover:text-white transition-all duration-300"
-                  aria-label={social.label}
-                >
-                  <social.icon size={18} />
-                </motion.a>
-              ))}
+            <div className="bg-gold/10 p-4 rounded-lg">
+              <p className="text-gold font-semibold text-sm">GST: 27AGZPM2344N1ZK</p>
+              <p className="text-gray-300 text-sm">Trusted since 1985</p>
             </div>
           </motion.div>
 
@@ -117,22 +111,25 @@ const Footer = () => {
               <div className="flex items-start space-x-3">
                 <MapPin className="text-gold mt-1 flex-shrink-0" size={18} />
                 <div className="text-gray-300">
-                  <p>Ground Floor, 64, Old Bhandara Road</p>
-                  <p>Near Hansapuri, Nagpur - 440018</p>
-                  <p>Maharashtra, India</p>
+                  <p>Shyam Trading Co., SBI ATM juna</p>
+                  <p>Bhandara Rd, Hansapuri</p>
+                  <p>Nagpur, Maharashtra 440018</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="text-gold flex-shrink-0" size={18} />
-                <span className="text-gray-300">+91 9876543210</span>
+                <span className="text-gray-300">+91 9422114130</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="text-gold flex-shrink-0" size={18} />
-                <span className="text-gray-300">info@shyamtradingco.in</span>
+                <span className="text-gray-300">anil.shyamtrading@gmail.com</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Clock className="text-gold flex-shrink-0" size={18} />
-                <span className="text-gray-300">Mon - Sat: 9:00 AM - 6:00 PM</span>
+                <div className="text-gray-300">
+                  <p>Mon - Sat: 11:00 AM - 8:00 PM</p>
+                  <p className="text-sm">Closed on Sunday</p>
+                </div>
               </div>
             </div>
           </motion.div>

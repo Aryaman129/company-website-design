@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Save, RefreshCw, Building, Phone, Mail, Globe, Eye, Download, Upload } from "lucide-react"
+import { Save, RefreshCw, Building, Phone, Mail, Globe, Eye, Download, Upload, Database } from "lucide-react"
 import { useWebsiteData } from "../../hooks/useWebsiteData"
+import DatabaseStatus from "../components/DatabaseStatus"
 import toast from "react-hot-toast"
 
 const SettingsManagement = () => {
@@ -83,7 +84,8 @@ const SettingsManagement = () => {
     { id: "contact", name: "Contact Details", icon: Phone },
     { id: "social", name: "Social Media", icon: Globe },
     { id: "seo", name: "SEO Settings", icon: Eye },
-    { id: "categories", name: "Categories", icon: RefreshCw }
+    { id: "categories", name: "Categories", icon: RefreshCw },
+    { id: "database", name: "Database", icon: Database }
   ]
 
   if (loading || !formData) {
@@ -324,16 +326,27 @@ const SettingsManagement = () => {
                   Product Categories (one per line)
                 </label>
                 <textarea
-                  value={formData.categories?.join('\n') || ''}
+                  value={Array.isArray(formData.categories) ? formData.categories.join('\n') : (formData.categories || '')}
                   onChange={(e) => handleArrayChange('categories', 'categories', e.target.value)}
                   rows={8}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent resize-none"
-                  placeholder="Toughened Glass&#10;Wooden Doors&#10;Aluminum Windows"
+                  placeholder="Steel Pipes&#10;Steel Bars&#10;Steel Sheets&#10;Stainless Steel&#10;Aluminum"
                 />
                 <p className="text-sm text-gray-500 mt-2">
                   Enter each category on a new line. These will be used throughout the website for product filtering.
                 </p>
               </div>
+            </motion.div>
+          )}
+
+          {/* Database Tab */}
+          {activeTab === "database" && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-6"
+            >
+              <DatabaseStatus />
             </motion.div>
           )}
         </div>

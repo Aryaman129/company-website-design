@@ -6,6 +6,8 @@ import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { Search, Filter, Star, ArrowRight } from "lucide-react"
 import { useWebsiteData } from "../hooks/useWebsiteData"
+import ProductDetailsModal from "../components/ProductDetailsModal"
+import { Product } from "../types/database"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -13,6 +15,18 @@ const Products = () => {
   const { products, settings, loading } = useWebsiteData()
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [searchTerm, setSearchTerm] = useState("")
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const openProductModal = (product: Product) => {
+    setSelectedProduct(product)
+    setIsModalOpen(true)
+  }
+
+  const closeProductModal = () => {
+    setSelectedProduct(null)
+    setIsModalOpen(false)
+  }
   const [filteredProducts, setFilteredProducts] = useState(products)
   const productsRef = useRef<HTMLDivElement>(null)
 
@@ -179,7 +193,10 @@ const Products = () => {
                       </div>
                     )}
                     <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <button className="btn-primary">
+                      <button
+                        className="btn-primary"
+                        onClick={() => openProductModal(product)}
+                      >
                         View Details
                         <ArrowRight className="ml-2" size={16} />
                       </button>
@@ -247,17 +264,18 @@ const Products = () => {
               >
                 Request Custom Quote
               </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="border-2 border-white text-white hover:bg-white hover:text-gold font-semibold py-4 px-8 rounded-lg transition-all duration-300"
-              >
-                Contact Our Experts
-              </motion.button>
+
             </div>
           </motion.div>
         </div>
       </section>
+
+      {/* Product Details Modal */}
+      <ProductDetailsModal
+        product={selectedProduct}
+        isOpen={isModalOpen}
+        onClose={closeProductModal}
+      />
     </div>
   )
 }

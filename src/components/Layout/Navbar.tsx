@@ -36,15 +36,15 @@ const Navbar = () => {
           <div className="flex items-center space-x-6">
             <div className="flex items-center space-x-2">
               <Phone size={14} />
-              <span>{settings?.contact?.phone || "+91 9876543210"}</span>
+              <span>+91 9422114130</span>
             </div>
             <div className="flex items-center space-x-2">
               <Mail size={14} />
-              <span>{settings?.contact?.email || "info@shyamtradingco.in"}</span>
+              <span>anil.shyamtrading@gmail.com</span>
             </div>
           </div>
           <div className="text-gold">
-            GST: {settings?.company?.gst || "27AGZPM2344N1ZK"} | Est. {settings?.company?.established || "1985"}
+            GST: 27AGZPM2344N1ZK | Est. 1985
           </div>
         </div>
       </div>
@@ -63,7 +63,11 @@ const Navbar = () => {
             <Link href="/" className="flex items-center space-x-3">
               <motion.img
                 whileHover={{ scale: 1.05 }}
-                src={settings?.company?.logo || "/shyam-trading-logo.png"}
+                src="/Logo.png"
+                onError={(e) => {
+                  // Fallback to original logo if Logo.png doesn't exist
+                  (e.target as HTMLImageElement).src = "/shyam-trading-logo.png"
+                }}
                 alt={settings?.company?.name || "Shyam Trading Company"}
                 className="h-12 w-auto"
               />

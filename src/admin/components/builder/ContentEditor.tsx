@@ -13,6 +13,7 @@ import {
   Settings
 } from 'lucide-react'
 import { useWebsiteData } from '../../../hooks/useWebsiteData'
+import { uploadImage } from '../../../lib/imageUpload'
 import toast from 'react-hot-toast'
 
 interface ContentEditorProps {
@@ -77,6 +78,25 @@ const ContentEditor: React.FC<ContentEditorProps> = ({
       }
       if (element.tagName === 'P' && textContent.length > 50) {
         return { section: 'cta', field: 'description' }
+      }
+    }
+
+    // Statistics section detection
+    if (element.closest('.stats-section') || classList.includes('stat-number') || classList.includes('stat-label')) {
+      if (classList.includes('stat-number') || (element.tagName === 'SPAN' && textContent.includes('+'))) {
+        // Determine which statistic based on content or position
+        if (textContent.includes('35') || textContent.toLowerCase().includes('year')) {
+          return { section: 'statistics', field: 'yearsExperience' }
+        }
+        if (textContent.includes('500') || textContent.toLowerCase().includes('project')) {
+          return { section: 'statistics', field: 'projectsCompleted' }
+        }
+        if (textContent.includes('300') || textContent.toLowerCase().includes('client')) {
+          return { section: 'statistics', field: 'happyClients' }
+        }
+        if (textContent.includes('4.') || textContent.toLowerCase().includes('rating')) {
+          return { section: 'statistics', field: 'rating' }
+        }
       }
     }
 
@@ -193,11 +213,22 @@ const ContentEditor: React.FC<ContentEditorProps> = ({
     }
   }
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
-      const url = URL.createObjectURL(file)
-      setEditValue(url)
+      setIsLoading(true)
+      try {
+        console.log('🌍 ContentEditor: Uploading image for global access...')
+        const url = await uploadImage(file, 'content')
+        setEditValue(url)
+        console.log('🌍 ContentEditor: Image uploaded globally, URL:', url)
+        toast.success('Image uploaded and available globally!')
+      } catch (error: any) {
+        console.error('🌍 ContentEditor: Global image upload failed:', error)
+        toast.error('Image upload failed - check console for details')
+      } finally {
+        setIsLoading(false)
+      }
     }
   }
 

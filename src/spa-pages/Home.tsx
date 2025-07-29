@@ -1,12 +1,16 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { ChevronDown, Award, Users, Calendar, Star, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { useWebsiteData } from "../hooks/useWebsiteData"
+import IntroVideo from "../components/IntroVideo"
+import ProductDetailsModal from "../components/ProductDetailsModal"
+
+import { Product } from "../lib/databaseManager"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -16,6 +20,18 @@ const Home = () => {
   const statsRef = useRef<HTMLDivElement>(null)
   const productsRef = useRef<HTMLDivElement>(null)
   const testimonialsRef = useRef<HTMLDivElement>(null)
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const openProductModal = (product: Product) => {
+    setSelectedProduct(product)
+    setIsModalOpen(true)
+  }
+
+  const closeProductModal = () => {
+    setSelectedProduct(null)
+    setIsModalOpen(false)
+  }
 
   useEffect(() => {
     // Hero animations
@@ -80,12 +96,20 @@ const Home = () => {
     }
   }, [])
 
-  // Use dynamic data or fallback to defaults
-  const stats = content?.stats || [
-    { number: 35, suffix: "+", label: "Years Experience", icon: "Calendar" },
-    { number: 500, suffix: "+", label: "Projects Completed", icon: "Award" },
-    { number: 300, suffix: "+", label: "Happy Clients", icon: "Users" },
-    { number: 4.8, suffix: "/5", label: "Client Rating", icon: "Star" },
+  // Use dynamic data from database or fallback to defaults
+  const statisticsData = content?.statistics || {
+    yearsExperience: "35+",
+    projectsCompleted: "500+",
+    happyClients: "300+",
+    rating: "4.6",
+    ratingOutOf: "5"
+  }
+
+  const stats = [
+    { number: statisticsData.yearsExperience, suffix: "", label: "Years Experience", icon: "Calendar" },
+    { number: statisticsData.projectsCompleted, suffix: "", label: "Projects Completed", icon: "Award" },
+    { number: statisticsData.happyClients, suffix: "", label: "Happy Clients", icon: "Users" },
+    { number: statisticsData.rating, suffix: `/${statisticsData.ratingOutOf}`, label: "Client Rating", icon: "Star" },
   ]
 
   const getIconComponent = (iconName: string) => {
@@ -116,53 +140,74 @@ const Home = () => {
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center">
-        {/* Background Video */}
-        <div className="absolute inset-0 z-0">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="w-full h-full object-cover"
-            poster={content?.hero?.videoPoster || "/placeholder.svg?height=1080&width=1920"}
-          >
-            <source src={content?.hero?.videoUrl || "/hero-video.mp4"} type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 video-overlay"></div>
+      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center bg-black">
+        {/* Matte Black Background with Subtle Pattern */}
+        <div className="absolute inset-0 z-0 bg-black">
+          <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black opacity-90"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(212,175,55,0.1)_0%,transparent_50%)]"></div>
         </div>
 
         {/* Hero Content */}
-        <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
-          <motion.img
-            className="hero-logo mx-auto mb-8 h-24 w-auto"
-            src={content?.hero?.logo || settings?.company?.logoLarge || "/placeholder.svg?height=96&width=384"}
-            alt={settings?.company?.name || "Company Logo"}
-          />
+        <div className="relative z-10 text-center text-white px-4 max-w-5xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="mb-12"
+          >
+            <img
+              className="hero-logo mx-auto h-40 md:h-48 lg:h-56 w-auto drop-shadow-2xl"
+              src="/Logo.png"
+              alt="Shyam Trading Company"
+              onError={(e) => {
+                // Fallback to original logo if Logo.png doesn't exist
+                (e.target as HTMLImageElement).src = "/shyam-trading-logo.png"
+              }}
+            />
+          </motion.div>
 
-          <h1 className="hero-title text-4xl md:text-6xl lg:text-7xl font-bold font-serif mb-6">
-            {content?.hero?.title || "35+ Years of Excellence"}
-          </h1>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.3 }}
+            className="hero-title text-4xl md:text-6xl lg:text-7xl font-bold font-serif mb-8 text-gold drop-shadow-lg"
+          >
+            {content?.hero?.title || "Premium Steel & Metal Solutions"}
+          </motion.h1>
 
-          <p className="hero-subtitle text-xl md:text-2xl mb-8 text-gray-200 max-w-2xl mx-auto">
-            {content?.hero?.subtitle || "Premium construction materials and contracting services across Maharashtra. Building trust since 1985."}
-          </p>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.6 }}
+            className="hero-subtitle text-xl md:text-2xl lg:text-3xl mb-12 text-gray-300 max-w-3xl mx-auto leading-relaxed"
+          >
+            {content?.hero?.subtitle || "Your trusted partner for high-quality steel products, structural materials, and metal fabrication services since 1995."}
+          </motion.p>
 
-          <div className="hero-buttons flex flex-col sm:flex-row gap-4 justify-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.9 }}
+            className="hero-buttons flex flex-col sm:flex-row gap-6 justify-center"
+          >
             <Link
               href={content?.hero?.buttons?.primary?.link || "/products"}
-              className="btn-primary text-lg px-8 py-4"
+              className="group relative overflow-hidden bg-gold hover:bg-gold-dark text-black font-semibold text-lg px-10 py-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
             >
-              {content?.hero?.buttons?.primary?.text || "Explore Products"}
-              <ArrowRight className="ml-2 inline" size={20} />
+              <span className="relative z-10 flex items-center justify-center">
+                {content?.hero?.buttons?.primary?.text || "View Products"}
+                <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" size={20} />
+              </span>
             </Link>
             <Link
               href={content?.hero?.buttons?.secondary?.link || "/contact"}
-              className="btn-secondary text-lg px-8 py-4"
+              className="group relative overflow-hidden border-2 border-gold text-gold hover:bg-gold hover:text-black font-semibold text-lg px-10 py-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
             >
-              {content?.hero?.buttons?.secondary?.text || "Get Quote"}
+              <span className="relative z-10">
+                {content?.hero?.buttons?.secondary?.text || "Get Quote"}
+              </span>
             </Link>
-          </div>
+          </motion.div>
         </div>
 
         {/* Scroll Indicator */}
@@ -176,7 +221,7 @@ const Home = () => {
       </section>
 
       {/* Stats Section */}
-      <section ref={statsRef} className="py-20 bg-gray-50">
+      <section ref={statsRef} className="stats-section py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat, index) => {
@@ -191,12 +236,12 @@ const Home = () => {
                     <IconComponent className="text-gold" size={32} />
                   </div>
                   <div className="text-4xl font-bold text-dark mb-2">
-                    <span className="stat-number" data-value={stat.number}>
-                      0
+                    <span className="stat-number">
+                      {stat.number}
                     </span>
                     <span className="text-gold">{stat.suffix}</span>
                   </div>
-                  <p className="text-gray-600 font-medium">{stat.label}</p>
+                  <p className="stat-label text-gray-600 font-medium">{stat.label}</p>
                 </motion.div>
               )
             })}
@@ -237,12 +282,14 @@ const Home = () => {
               transition={{ duration: 0.8 }}
               className="relative"
             >
-              <img
-                src={content?.about?.image || "/placeholder.svg?height=500&width=600"}
-                alt={settings?.company?.name + " Office" || "Company Office"}
-                className="rounded-xl shadow-2xl"
+              <IntroVideo
+                className="w-full h-80 rounded-xl shadow-2xl"
+                autoplay={true}
+                muted={true}
+                loop={true}
+                controls={false}
               />
-              <div className="absolute -bottom-6 -left-6 bg-gold text-white p-6 rounded-xl">
+              <div className="absolute -bottom-6 -left-6 bg-gold text-white p-6 rounded-xl shadow-lg z-20 border-4 border-white">
                 <div className="text-2xl font-bold">{content?.about?.yearsBadge?.number || "35+"}</div>
                 <div className="text-sm">{content?.about?.yearsBadge?.text || "Years of Trust"}</div>
               </div>
@@ -278,7 +325,12 @@ const Home = () => {
                     className="w-full h-48 object-cover transition-transform duration-300 hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <Link href="/products" className="btn-primary">View Details</Link>
+                    <button
+                      className="btn-primary"
+                      onClick={() => openProductModal(product)}
+                    >
+                      View Details
+                    </button>
                   </div>
                 </div>
                 <div className="p-6">
@@ -361,6 +413,13 @@ const Home = () => {
           </motion.div>
         </div>
       </section>
+
+      {/* Product Details Modal */}
+      <ProductDetailsModal
+        product={selectedProduct}
+        isOpen={isModalOpen}
+        onClose={closeProductModal}
+      />
     </div>
   )
 }
