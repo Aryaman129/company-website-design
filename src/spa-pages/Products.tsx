@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
@@ -227,7 +228,12 @@ const Products = () => {
 
                     <div className="flex items-center justify-between">
                       <div className="text-lg font-bold text-gold">{product.price}</div>
-                      <button className="text-gold hover:text-gold-dark font-medium text-sm">Get Quote →</button>
+                      <button
+                        className="text-gold hover:text-gold-dark font-medium text-sm"
+                        onClick={() => openProductModal(product)}
+                      >
+                        View Details →
+                      </button>
                     </div>
                   </div>
                 </motion.div>
@@ -257,13 +263,15 @@ const Products = () => {
               specific requirements.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-white text-gold hover:bg-gray-100 font-semibold py-4 px-8 rounded-lg transition-all duration-300"
-              >
-                Request Custom Quote
-              </motion.button>
+              <Link href="/contact">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-white text-gold hover:bg-gray-100 font-semibold py-4 px-8 rounded-lg transition-all duration-300"
+                >
+                  Request Custom Quote
+                </motion.button>
+              </Link>
 
             </div>
           </motion.div>

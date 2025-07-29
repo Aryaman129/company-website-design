@@ -93,9 +93,11 @@ const Navbar = () => {
                   )}
                 </Link>
               ))}
-              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="btn-primary">
-                Get Quote
-              </motion.button>
+              <Link href="/contact">
+                <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="btn-primary">
+                  Get Quote
+                </motion.button>
+              </Link>
             </div>
 
             {/* Mobile Menu Button */}
@@ -138,14 +140,16 @@ const Navbar = () => {
                     </Link>
                   </motion.div>
                 ))}
-                <motion.button
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.4 }}
-                  className="btn-primary w-full mt-4"
-                >
-                  Get Quote
-                </motion.button>
+                <Link href="/contact">
+                  <motion.button
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="btn-primary w-full mt-4"
+                  >
+                    Get Quote
+                  </motion.button>
+                </Link>
               </div>
             </motion.div>
           )}
