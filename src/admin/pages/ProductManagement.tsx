@@ -1,30 +1,27 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Plus, Search, Edit, Trash2, Eye, Star, Package } from "lucide-react"
 import { useWebsiteData } from "../../hooks/useWebsiteData"
+import { useCategories } from "../../hooks/useCategories"
 import ProductEditModal from "../components/ProductEditModal"
 import toast from "react-hot-toast"
 
 const ProductManagement = () => {
   const { products, updateProduct, deleteProduct, loading, settings } = useWebsiteData()
+  const { categories: dbCategories, getActiveCategories } = useCategories()
   const [filteredProducts, setFilteredProducts] = useState(products)
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [showAddForm, setShowAddForm] = useState(false)
   const [editingProduct, setEditingProduct] = useState<any>(null)
 
-  const categories = settings?.categories || [
-    "All",
-    "Toughened Glass",
-    "Wooden Doors",
-    "Aluminum Windows",
-    "PVC Panels",
-    "ACP Cladding",
-    "Steel Doors",
-    "Glazing Services"
-  ]
+  // Get categories for filtering (include All + active categories) - memoized to prevent re-renders
+  const categories = useMemo(() => {
+    const activeCategories = getActiveCategories()
+    return ["All", ...activeCategories.filter(cat => cat.name !== "All").map(cat => cat.name)]
+  }, [getActiveCategories])
 
   useEffect(() => {
     filterProducts()

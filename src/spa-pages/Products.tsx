@@ -1,12 +1,13 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useMemo } from "react"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { Search, Filter, Star, ArrowRight } from "lucide-react"
 import { useWebsiteData } from "../hooks/useWebsiteData"
+import { useCategories } from "../hooks/useCategories"
 import ProductDetailsModal from "../components/ProductDetailsModal"
 import { Product } from "../types/database"
 
@@ -14,6 +15,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 const Products = () => {
   const { products, settings, loading } = useWebsiteData()
+  const { categories, loading: categoriesLoading, getActiveCategories } = useCategories()
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
@@ -71,17 +73,13 @@ const Products = () => {
     setFilteredProducts(filtered)
   }
 
-  const categories = ["All", ...(settings?.categories || [
-    "Toughened Glass",
-    "Wooden Doors",
-    "Aluminum Windows",
-    "PVC Panels",
-    "ACP Cladding",
-    "Steel Doors",
-    "Glazing Services",
-  ])]
+  // Get active categories for display, always include "All" first - memoized to prevent re-renders
+  const displayCategories = useMemo(() => {
+    const activeCategories = getActiveCategories()
+    return ["All", ...activeCategories.filter(cat => cat.name !== "All").map(cat => cat.name)]
+  }, [getActiveCategories])
 
-  if (loading) {
+  if (loading || categoriesLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="w-8 h-8 border-2 border-gold border-t-transparent rounded-full animate-spin"></div>
@@ -129,19 +127,19 @@ const Products = () => {
 
             {/* Category Filters */}
             <div className="flex flex-wrap gap-2">
-              {categories.map((category) => (
+              {displayCategories.map((categoryName) => (
                 <motion.button
-                  key={category}
+                  key={categoryName}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => setSelectedCategory(category)}
+                  onClick={() => setSelectedCategory(categoryName)}
                   className={`px-4 py-2 rounded-full font-medium transition-all duration-300 ${
-                    selectedCategory === category
+                    selectedCategory === categoryName
                       ? "bg-gold text-white"
                       : "bg-gray-100 text-gray-700 hover:bg-gold/10 hover:text-gold"
                   }`}
                 >
-                  {category}
+                  {categoryName}
                 </motion.button>
               ))}
             </div>

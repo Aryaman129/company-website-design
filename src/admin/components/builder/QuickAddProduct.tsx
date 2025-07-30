@@ -1,9 +1,10 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Plus, X, Save, Upload } from 'lucide-react'
 import { useWebsiteData } from '../../../hooks/useWebsiteData'
+import { useCategories } from '../../../hooks/useCategories'
 import { uploadImage } from '../../../lib/imageUpload'
 import toast from 'react-hot-toast'
 
@@ -13,7 +14,8 @@ interface QuickAddProductProps {
 }
 
 const QuickAddProduct: React.FC<QuickAddProductProps> = ({ isOpen, onClose }) => {
-  const { addProduct, settings } = useWebsiteData()
+  const { addProduct } = useWebsiteData()
+  const { getActiveCategories } = useCategories()
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
@@ -24,14 +26,11 @@ const QuickAddProduct: React.FC<QuickAddProductProps> = ({ isOpen, onClose }) =>
     featured: false
   })
 
-  const categories = settings?.categories || [
-    "Steel Pipes",
-    "Steel Bars", 
-    "Steel Sheets",
-    "Stainless Steel",
-    "Aluminum",
-    "Structural Steel"
-  ]
+  // Get categories for product creation (exclude "All" since it's not a real category) - memoized
+  const categories = useMemo(() => {
+    const activeCategories = getActiveCategories()
+    return activeCategories.filter(cat => cat.name !== "All").map(cat => cat.name)
+  }, [getActiveCategories])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

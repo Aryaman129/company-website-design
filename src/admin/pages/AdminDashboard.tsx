@@ -12,7 +12,8 @@ import {
   Edit,
   Plus,
   Settings,
-  Video
+  Video,
+  Tags
 } from "lucide-react"
 import Link from "next/link"
 
@@ -56,7 +57,7 @@ const AdminDashboard = () => {
       title: "Add New Product",
       description: "Create a new product listing",
       icon: Plus,
-      link: "/admin/products/new",
+      link: "/admin/products",
       color: "bg-blue-500"
     },
     {
@@ -67,11 +68,18 @@ const AdminDashboard = () => {
       color: "bg-green-500"
     },
     {
+      title: "Manage Categories",
+      description: "Edit product categories",
+      icon: Tags,
+      link: "/admin/categories",
+      color: "bg-purple-500"
+    },
+    {
       title: "Edit Content",
       description: "Update page content",
       icon: Edit,
       link: "/admin/content",
-      color: "bg-purple-500"
+      color: "bg-indigo-500"
     },
     {
       title: "View Website",

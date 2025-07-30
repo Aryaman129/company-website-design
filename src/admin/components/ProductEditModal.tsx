@@ -1,9 +1,10 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Upload, Save, Loader } from 'lucide-react'
 import { useWebsiteData } from '../../hooks/useWebsiteData'
+import { useCategories } from '../../hooks/useCategories'
 import { Product } from '../../lib/dataManager'
 import { uploadImage } from '../../lib/imageUpload'
 import toast from 'react-hot-toast'
@@ -21,7 +22,8 @@ const ProductEditModal: React.FC<ProductEditModalProps> = ({
   onClose,
   onSave
 }) => {
-  const { addProduct, updateProduct, settings } = useWebsiteData()
+  const { addProduct, updateProduct } = useWebsiteData()
+  const { getActiveCategories } = useCategories()
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState<Partial<Product>>({
     name: '',
@@ -35,16 +37,11 @@ const ProductEditModal: React.FC<ProductEditModalProps> = ({
     featured: false
   })
 
-  const categories = settings?.categories || [
-    "Steel Pipes",
-    "Steel Bars", 
-    "Steel Sheets",
-    "Stainless Steel",
-    "Aluminum",
-    "Structural Steel",
-    "GI Sheets",
-    "Copper"
-  ]
+  // Get categories for product creation/editing (exclude "All" since it's not a real category) - memoized
+  const categories = useMemo(() => {
+    const activeCategories = getActiveCategories()
+    return activeCategories.filter(cat => cat.name !== "All").map(cat => cat.name)
+  }, [getActiveCategories])
 
   useEffect(() => {
     if (product) {
@@ -76,13 +73,13 @@ const ProductEditModal: React.FC<ProductEditModalProps> = ({
 
   // Separate effect to update category when categories change and no product is selected
   useEffect(() => {
-    if (!product && categories.length > 0) {
+    if (!product && categories.length > 0 && !formData.category) {
       setFormData(prev => ({
         ...prev,
-        category: prev.category || categories[0]
+        category: categories[0]
       }))
     }
-  }, [categories, product])
+  }, [categories, product, formData.category])
 
   const handleInputChange = (field: keyof Product, value: any) => {
     setFormData(prev => ({

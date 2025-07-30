@@ -64,6 +64,18 @@ CREATE TABLE IF NOT EXISTS testimonials (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Categories table
+CREATE TABLE IF NOT EXISTS categories (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE,
+    slug VARCHAR(255) NOT NULL UNIQUE,
+    description TEXT,
+    display_order INTEGER DEFAULT 0,
+    active BOOLEAN DEFAULT true,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- Create indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_products_category ON products(category);
 CREATE INDEX IF NOT EXISTS idx_products_featured ON products(featured);
@@ -73,6 +85,8 @@ CREATE INDEX IF NOT EXISTS idx_settings_key ON settings(key);
 CREATE INDEX IF NOT EXISTS idx_media_category ON media(category);
 CREATE INDEX IF NOT EXISTS idx_media_type ON media(type);
 CREATE INDEX IF NOT EXISTS idx_testimonials_rating ON testimonials(rating);
+CREATE INDEX IF NOT EXISTS idx_categories_active ON categories(active);
+CREATE INDEX IF NOT EXISTS idx_categories_display_order ON categories(display_order);
 
 -- Create updated_at trigger function
 CREATE OR REPLACE FUNCTION update_updated_at_column()
@@ -98,6 +112,22 @@ CREATE TRIGGER update_media_updated_at BEFORE UPDATE ON media
 
 CREATE TRIGGER update_testimonials_updated_at BEFORE UPDATE ON testimonials
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_categories_updated_at BEFORE UPDATE ON categories
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- Insert default categories
+INSERT INTO categories (name, slug, description, display_order, active) VALUES
+('All', 'all', 'Show all products', 0, true),
+('Toughened Glass', 'toughened-glass', 'High-strength safety glass products', 1, true),
+('Wooden Doors', 'wooden-doors', 'Premium wooden door solutions', 2, true),
+('Aluminum Windows', 'aluminum-windows', 'Modern aluminum window systems', 3, true),
+('PVC Panels', 'pvc-panels', 'Durable PVC panel solutions', 4, true),
+('ACP Cladding', 'acp-cladding', 'Aluminum composite panel cladding', 5, true),
+('Steel Structures', 'steel-structures', 'Structural steel components', 6, true),
+('Glass Partitions', 'glass-partitions', 'Office and commercial glass partitions', 7, true),
+('Roofing Materials', 'roofing-materials', 'Quality roofing solutions', 8, true)
+ON CONFLICT (slug) DO NOTHING;
 
 -- Insert default content data
 INSERT INTO content (section, data) VALUES 
